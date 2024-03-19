@@ -54,3 +54,26 @@ def review_detail_api_view(request, id):
         return Response(data={'error_message': 'Review not found'}, status=status.HTTP_404_NOT_FOUND)
     data = ReviewSerializer(review_detail).data
     return Response(data=data)
+
+
+@api_view(['GET'])
+def products_with_reviews(request):
+    products = Product.objects.all()
+    product_data = ProductSerializer(products, many=True).data
+
+    for product in product_data:
+        reviews = product['reviews']
+        total_stars = sum(review['stars'] for review in reviews)
+        if reviews:
+            product['average_rating'] = total_stars / len(reviews)
+        else:
+            product['average_rating'] = 0
+
+    return Response(data=product_data)
+
+
+@api_view(['GET'])
+def categories_with_product_count(request):
+    categories = Category.objects.all()
+    data = CategorySerializer(categories, many=True).data
+    return Response(data=data)
