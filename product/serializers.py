@@ -29,3 +29,8 @@ class ReviewSerializer(serializers.ModelSerializer):
     class Meta:
         model = Review
         fields = '__all__'
+
+    def validate_stars(self, value):
+        if value not in range(1, 6):
+            raise serializers.ValidationError("Stars should be between 1 and 5.")
+        return value
