@@ -1,11 +1,13 @@
 from django.urls import path
-from . import views
+from .views import (CategoryListAPIView, CategoryDetailAPIView,
+                    ProductListAPIView, ProductDetailAPIView,
+                    ReviewListAPIView, ReviewDetailAPIView)
 
 urlpatterns = [
-    path('', views.category_list_api_view),
-    path('<int:id>/', views.category_detail_api_view),
-    path('', views.product_list_api_view),
-    path('<int:id>/', views.product_detail_api_view),
-    path('', views.review_list_api_view),
-    path('<int:id>/', views.review_detail_api_view),
+    path('categories/', CategoryListAPIView.as_view()),
+    path('categories/<int:id>/', CategoryDetailAPIView.as_view()),
+    path('products/', ProductListAPIView.as_view()),
+    path('products/<int:id>/', ProductDetailAPIView.as_view()),
+    path('reviews/', ReviewListAPIView.as_view()),
+    path('reviews/<int:id>/', ReviewDetailAPIView.as_view()),
 ]
